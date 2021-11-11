@@ -72,8 +72,7 @@ ben.eat("cupcake");
 ben.eat("sushi");
 
 console.log(ben.stomach);
-
-console.log(ben.poop);
+ben.poop();
 console.log(ben.stomach);
 
 /*
@@ -102,19 +101,25 @@ Car.prototype.fill = function (gallons) {
   this.tank = gallons + this.tank;
 };
 Car.prototype.drive = function (distance) {
-  this.odometer = distance + this.odometer;
-  const miles = this.milesPerGallon * this.tank;
-  const gas = this.milesPerGallon * distance;
-  if (miles < gas && gas === 0) {
+  const milesAvailible = this.milesPerGallon * this.tank;
+
+  const gallonsUsed = distance / this.milesPerGallon;
+
+  if (milesAvailible <= distance) {
+    this.tank = 0;
+    this.odometer += milesAvailible;
     return `I ran out of fuel at ${this.odometer}`;
+  } else {
+    this.tank -= gallonsUsed;
+    this.odometer += distance;
   }
-  return this.drive;
 };
 
 const toyota = new Car("Toyota", 25);
-console.log(toyota.fill(25));
-toyota.drive(450);
-console.log(toyota.drive());
+console.log(toyota.fill(10));
+
+console.log(toyota.drive(100));
+console.log(toyota.tank, toyota.odometer);
 
 /*
   TASK 3
@@ -155,10 +160,10 @@ console.log(lucy.poop());
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. in window binding the value of this will be in the window and console object.
+  2. in implicit binding the object that is calling the function, the object before the dot is this.
+  3. in the new binding the this is refering to the specific instance that is created and returned by the constructor function. when we call the function we have to use the new keyword.
+  4. explicit binding is when we use the call or apply method this is explicitly defined.
 */
 
 ///////// END OF CHALLENGE /////////
